@@ -54,7 +54,8 @@ var sketch = function(p) {
     p.params.centercirclesize= parseInt(p.select('#centercirclesize').elt.value)
     p.params.centercirclecolor = p.select('#centercirclecolor').elt.value
     p.params.colorcnt = parseInt(p.select('#colorcnt').elt.value)
-    p.params.sectioncnt = parseInt(p.select('#sectioncnt').elt.value)
+    // p.params.sectioncnt = parseInt(p.select('#sectioncnt').elt.value)
+    p.params.sectioncnt = 60
     p.params.angles = []
     p.params.colors = []
     for (i=0; i < p.params.colorcnt; i++) {
@@ -141,6 +142,7 @@ var sketch = function(p) {
     fcolor = p.color(p.params.fcolor)
     //fcolor.setAlpha(params.fcoloralpha)
     var textSize;
+    p.params.txtsizestyle = p.random(['tri', 'sin'])
     switch (p.params.txtsizestyle) {
       case 'tri':
         textSize = p.get_tri(idx, p.params.txtamp, p.params.txtstart, 0);
@@ -166,6 +168,7 @@ var sketch = function(p) {
     dy = bbox.y + (bbox.h / 2)
     p.translate(dx , dy)
     var textRotate;
+    p.params.txtrotstyle = p.random(['tri', 'sin','tri', 'sin','tri','sin','tri','sin','circ'])
     switch (p.params.txtrotstyle) {
       case 'tri':
         textRotate = p.get_tri(idx, p.params.rotamp, 0, 0);
@@ -193,11 +196,18 @@ var sketch = function(p) {
     p.noStroke();
     angle = 0;
     for (let i = 0; i < p.params.sectioncnt; i++) {
-        p.fill(p.params.colors[i % p.params.colors.length]);
+        //p.fill(p.params.colors[i % p.params.colors.length]);
+        r = p.random(255);
+        g = p.random(255);
+        b = p.random(255);
+        a = p.random(200,255);
+        p.fill(r,g,b,a);
         arcbeg = startangle + angle
-        arcend = arcbeg + p.params.angles[i % p.params.angles.length]
+        //arcend = arcbeg + p.params.angles[i % p.params.angles.length]
+        arcend = arcbeg + 6
         p.arc(x, y, p.params.arcsize, p.params.arcsize, arcbeg, arcend);
-        angle += p.params.angles[i % p.params.angles.length];
+        //angle += p.params.angles[i % p.params.angles.length];
+        angle += 6
       }
 
     if (p.params.centercirclesize > 0) {
