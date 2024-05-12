@@ -42,12 +42,16 @@ var sketch = function(p) {
     p.params.fcolor = p.select('#fcolor').elt.value
     p.params.scolor = p.select('#scolor').elt.value
     p.params.txt = p.select('#inptext').elt.value
+    p.params.txt = "ADHD"
     p.params.ssize= p.select('#ssize').elt.value
-    p.params.txtstart = parseInt(p.select('#txtstart').elt.value)
+    //p.params.txtstart = parseInt(p.select('#txtstart').elt.value)
+    p.params.txtstart = 80
     p.params.txtsizestyle = p.select("#txtsizestyle").elt.value
     p.params.txtrotstyle = p.select("#txtrotstyle").elt.value
-    p.params.txtamp = parseInt(p.select('#txtamp').elt.value)
-    p.params.rotamp = parseInt(p.select('#rotamp').elt.value)
+    //p.params.txtamp = parseInt(p.select('#txtamp').elt.value)
+    p.params.txtamp = 30
+    //p.params.rotamp = parseInt(p.select('#rotamp').elt.value)
+    p.params.rotamp = 30
     p.params.spinspeed = parseInt(p.select('#spinspeed').elt.value)
     // background
     p.params.arcsize= parseInt(p.select('#arcsize').elt.value)
@@ -137,9 +141,11 @@ var sketch = function(p) {
 
   p.drawtext = function(x, y, idx){
     if (!p.params.txt) { return ;}
-    scolor = p.color(p.params.scolor)
+    //scolor = p.color(p.params.scolor)
+    scolor = p.color(p.random((0,127,255)))
     //scolor.setAlpha(params.scoloralpha)
-    fcolor = p.color(p.params.fcolor)
+    //fcolor = p.color(p.params.fcolor)
+    fcolor = p.color(p.random((0,127,255)))
     //fcolor.setAlpha(params.fcoloralpha)
     var textSize;
     p.params.txtsizestyle = p.random(['tri', 'sin'])
@@ -196,6 +202,7 @@ var sketch = function(p) {
     p.noStroke();
     angle = 0;
     for (let i = 0; i < p.params.sectioncnt; i++) {
+      arcrnd = p.random(0,20)
         //p.fill(p.params.colors[i % p.params.colors.length]);
         r = p.random(255);
         g = p.random(255);
@@ -204,14 +211,20 @@ var sketch = function(p) {
         p.fill(r,g,b,a);
         arcbeg = startangle + angle
         //arcend = arcbeg + p.params.angles[i % p.params.angles.length]
-        arcend = arcbeg + 6
+        arcend = arcbeg + 6 + arcrnd
         p.arc(x, y, p.params.arcsize, p.params.arcsize, arcbeg, arcend);
         //angle += p.params.angles[i % p.params.angles.length];
-        angle += 6
+        angle += 6 + arcrnd
       }
 
+    p.params.centercirclesize = p.random(0,100)
     if (p.params.centercirclesize > 0) {
-      p.fill(p.params.centercirclecolor);
+      //p.fill(p.params.centercirclecolor);
+      r = p.random(255);
+      g = p.random(255);
+      b = p.random(255);
+      a = p.random(200,255);
+      p.fill(r,g,b,a);
       p.ellipse(x, y, p.params.centercirclesize, p.params.centercirclesize);
     }
   }
